@@ -2,8 +2,8 @@ from fileprocess import process_file
 from db import create_table, insert_job_titles, delete_all_job_titles
 
 if __name__ == '__main__':
-    file_path = 'code/titles/titles.txt'
-    processed_file_path = 'code/titles/processed_job_titles.txt'
+    file_path = 'titles/titles.txt'
+    processed_file_path = 'titles/processed_job_titles.txt'
 
     job_titles = process_file(file_path)
 
