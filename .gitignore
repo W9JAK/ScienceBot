@@ -1,0 +1,5 @@
+.idea
+.venv
+titles/.env
+titles/titles.txt
+titles/processed_job_titles.txt
