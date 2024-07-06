@@ -1,23 +1,30 @@
 version: "2.1"
 services:
-  app:
+  bot:
     build:
       context: .
       dockerfile: Dockerfile
-    command: python3 titles/addtitlestobd.py
+    command: python3 main/run.py
     restart: always
     volumes:
       - .:/code
     links:
       - db
+      - dbmate
+    ports:
+      - "8080:8080"
     depends_on:
       db:
-          condition: service_healthy
+        condition: service_healthy
+      dbmate:
+        condition: service_started
+    labels:
+      - autoheal=true
 
   db:
     image: postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       - POSTGRES_DB=ScienceBot
       - POSTGRES_USER=postgres
@@ -29,3 +36,24 @@ services:
       retries: 5
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+
+  dbmate:
+    image: amacneil/dbmate
+    command: -d "/code/migration" up
+    volumes:
+      - .:/code
+    links:
+      - db
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgres://postgres:6535819169DB@db:5432/ScienceBot?sslmode=disable
+
+  autoheal:
+    image: willfarrell/autoheal
+    restart: always
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=all
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
