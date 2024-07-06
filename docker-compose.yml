@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: sh -c "sleep 10 && python3 main/addtitlestobd.py"
+    command: sh -c "sleep 10 && python3 titles/addtitlestobd.py"
     volumes:
       - .:/code
     links:
