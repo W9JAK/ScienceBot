@@ -4,8 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: python3 main/run.py
-    restart: always
+    command: python3 main/addtitlestobd.py
     volumes:
       - .:/code
     links:
