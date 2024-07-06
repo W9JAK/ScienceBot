@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: python3 titles/addtitlestobd.py
+    command: sh -c "sleep 10 && python3 main/addtitlestobd.py"
     volumes:
       - .:/code
     links:
@@ -17,8 +17,6 @@ services:
         condition: service_healthy
       dbmate:
         condition: service_started
-    labels:
-      - autoheal=true
 
   db:
     image: postgres
@@ -48,11 +46,3 @@ services:
         condition: service_healthy
     environment:
       - DATABASE_URL=postgres://postgres:6535819169DB@db:5432/ScienceBot?sslmode=disable
-
-  autoheal:
-    image: willfarrell/autoheal
-    restart: always
-    environment:
-      - AUTOHEAL_CONTAINER_LABEL=all
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
