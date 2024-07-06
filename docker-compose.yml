@@ -24,7 +24,7 @@ services:
   db:
     image: postgres
     ports:
-      - "5433:5432"
+      - "5434:5432"
     environment:
       - POSTGRES_DB=ScienceBot
       - POSTGRES_USER=postgres
